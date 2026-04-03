@@ -1,3 +1,6 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import { Inter, Space_Grotesk } from "next/font/google";
 import { MaterialSymbolsFont } from "./material-symbols-font";
 
@@ -13,6 +16,8 @@ const softShadowStyle = {
 } as const;
 
 export default function ModernParentPainQuestionPage() {
+  const router = useRouter();
+
   return (
     <>
       <MaterialSymbolsFont />
@@ -174,6 +179,7 @@ export default function ModernParentPainQuestionPage() {
           <footer className="pt-4">
             <button
               type="button"
+              onClick={() => router.push("/parent-profile")}
               style={softShadowStyle}
               className={`w-full py-5 bg-[#6B7D3A] hover:bg-[#5a6a31] text-white text-xl font-bold rounded-lg ${spaceGrotesk.className} transition-all duration-200`}
             >
