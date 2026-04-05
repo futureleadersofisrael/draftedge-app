@@ -1,12 +1,22 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+
+type PersonaChoice = "parent" | "candidate" | null;
 
 export default function PersonaPage() {
   const router = useRouter();
+  const [selectedPersona, setSelectedPersona] = useState<PersonaChoice>(null);
+
+  const handleContinue = () => {
+    if (!selectedPersona) return;
+    if (selectedPersona === "parent") router.push("/parent-intro");
+    else router.push("/candidate-unit");
+  };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8FAF8] text-[#1A1C1E]">
+    <div dir="rtl" lang="he" className="min-h-screen flex flex-col bg-[#F8FAF8] text-[#1A1C1E]">
 
       {/* Header */}
       <header className="fixed top-0 w-full z-50 flex justify-center items-center h-20 bg-[#F8FAF8]/80 backdrop-blur-md">
@@ -33,37 +43,52 @@ export default function PersonaPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-8">
 
             {/* Parent */}
-            <div
-              onClick={() => router.push("/parent-intro")}
-              className="bg-white p-8 h-72 flex flex-col justify-between cursor-pointer rounded-xl border hover:border-[#6B7D3A] transition"
+            <button
+              type="button"
+              onClick={() => setSelectedPersona("parent")}
+              className={`w-full text-right bg-white p-8 h-72 flex flex-col justify-between cursor-pointer rounded-xl border transition ${
+                selectedPersona === "parent"
+                  ? "border-2 border-[#6B7D3A] shadow-sm"
+                  : "border hover:border-[#6B7D3A]"
+              }`}
             >
-              <div className="text-right">
+              <div>
                 <div className="text-4xl mb-4">👨‍👩‍👦</div>
                 <h2 className="text-2xl font-bold mb-3">הורה</h2>
                 <p className="text-gray-500 text-lg">
                   אני רוצה להבין ולעזור לילד שלי בתהליך הגיוס
                 </p>
               </div>
-            </div>
+            </button>
 
             {/* Candidate */}
-            <div
-              onClick={() => router.push("/candidate-unit")}
-              className="bg-white p-8 h-72 flex flex-col justify-between cursor-pointer rounded-xl border border-[#6B7D3A]"
+            <button
+              type="button"
+              onClick={() => setSelectedPersona("candidate")}
+              className={`w-full text-right bg-white p-8 h-72 flex flex-col justify-between cursor-pointer rounded-xl border transition ${
+                selectedPersona === "candidate"
+                  ? "border-2 border-[#6B7D3A] shadow-sm"
+                  : "border hover:border-[#6B7D3A]"
+              }`}
             >
-              <div className="text-right">
+              <div>
                 <div className="text-4xl mb-4">🧑‍🎓</div>
                 <h2 className="text-2xl font-bold mb-3">מלש״ב</h2>
                 <p className="text-gray-500 text-lg">
                   אני רוצה להבין מה הכי מתאים לי בשירות הצבאי
                 </p>
               </div>
-            </div>
+            </button>
 
           </div>
 
           {/* Button */}
-          <button className="w-full bg-[#6B7D3A] text-white py-5 rounded-lg font-bold text-lg hover:opacity-90 transition">
+          <button
+            type="button"
+            disabled={!selectedPersona}
+            onClick={handleContinue}
+            className="w-full bg-[#6B7D3A] text-white py-5 rounded-lg font-bold text-lg hover:opacity-90 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:opacity-50"
+          >
             המשך לתהליך
           </button>
 
